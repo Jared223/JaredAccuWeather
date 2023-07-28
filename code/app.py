@@ -1,3 +1,5 @@
+# CONNECTING TO API AND MAKING DATABASE WITH RESULTS
+
 import requests
 import sqlite3
 import time
