@@ -1,11 +1,15 @@
 import requests
 import sqlite3
+import time
+
 
 # Setting up and connecting to database
 
 conn = sqlite3.connect('weather_data.db')
 
 cur = conn.cursor()
+
+timestamp = int(time.time()) # get timestamp
 
 # Create table
 cur.execute('''
@@ -14,7 +18,8 @@ cur.execute('''
         location TEXT,
         weather_main TEXT,
         weather_description TEXT,
-        temperature_c REAL
+        temperature_c REAL,
+        timestamp INTEGER
     )
 ''')
 
@@ -50,13 +55,17 @@ location = response['name']
 
 # Insert weather data into table
 cur.execute('''
-    INSERT INTO Weather (location, weather_main, weather_description, temperature_c) 
-    VALUES (?, ?, ?, ?)
-''', (location, weather_main, weather_description, temperature_celsius))
+    INSERT INTO Weather (location, weather_main, weather_description, temperature_c, timestamp) 
+    VALUES (?, ?, ?, ?, ?)
+''', (location, weather_main, weather_description, temperature_celsius, timestamp))
 
 # Commit changes
 conn.commit()
 
 # Close connection
 conn.close()
+
+df = [weather_main]
+
+
 
